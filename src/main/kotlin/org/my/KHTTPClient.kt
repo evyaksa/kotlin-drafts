@@ -35,8 +35,7 @@ class KHTTPClient(private val host: URL,
 }
 
 fun toQuery(params: Map<String, List<String>>): String {
-    return enc(
-            params.toList().flatMap { pair -> pair.second.map { pair.first to it } }.foldIndexed("?") { i, acc, pair -> acc + "${if (i > 0) "&" else ""}${pair.first}=${pair.second}" })
+    return params.toList().flatMap { pair -> pair.second.map { pair.first to it } }.foldIndexed("?") { i, acc, pair -> acc + "${if (i > 0) "&" else ""}${enc(pair.first)}=${enc(pair.second)}" }
 }
 
 fun String.splitQuery(): Map<String, List<String>> =
